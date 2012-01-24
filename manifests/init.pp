@@ -13,8 +13,8 @@
 # Sample Usage:
 #
 class apache (
-  $package_name   = hiera('apache_package'),
-  $package_ensure = hiera('apache_ensure'),
+  $package_name   = hiera('apache_package_name'),
+  $package_ensure = hiera('apache_package_ensure'),
   $service_name   = hiera('apache_service_name'),
   $purge          = hiera('apache_purge')
 ) {
