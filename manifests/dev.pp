@@ -11,8 +11,12 @@
 #
 # Sample Usage:
 #
-class apache::dev {
-  include apache::params
+class apache::dev (
+  $package = hiera_array('apache_dev_package')
+) {
 
-  package{$apache::params::apache_dev: ensure => installed}
+  package { $package:
+    ensure => present,
+  }
+
 }

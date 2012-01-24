@@ -28,19 +28,23 @@
 define apache::vhost(
     $port,
     $docroot,
-    $ssl           = $apache::params::ssl,
-    $template      = $apache::params::template,
-    $priority      = $apache::params::priority,
-    $servername    = $apache::params::servername,
-    $serveraliases = $apache::params::serveraliases,
-    $auth          = $apache::params::auth,
-    $redirect_ssl  = $apache::params::redirect_ssl,
-    $options       = $apache::params::options,
+    $ssl           = hiera('apache_ssl'),
+    $template      = hiera('apache_template'),
+    $priority      = hiera('apache_priority'),
+    $servername    = hiera('apache_servername'),
+    $serveraliases = hiera('apache_serveraliases'),
+    $auth          = hiera('apache_auth'),
+    $redirect_ssl  = hiera('apache_redirect_ssl'),
+    $options       = hiera('apache_options'),
     $apache_name   = $apache::params::apache_name,
     $vhost_name    = $apache::params::vhost_name
   ) {
 
-  include apache
+  if $ssl {
+    include apache::ssl
+  } else {
+    include apache
+  }
 
   if $servername == '' {
     $srvname = $name
@@ -48,13 +52,9 @@ define apache::vhost(
     $srvname = $servername
   }
 
-  if $ssl == true {
-    include apache::ssl
-  }
-
   # Since the template will use auth, redirect to https requires mod_rewrite
-  if $redirect_ssl == true {
-    case $operatingsystem {
+  if $redirect_ssl {
+    case $::operatingsystem {
       'debian','ubuntu': {
         A2mod <| title == 'rewrite' |>
       }
@@ -72,12 +72,12 @@ define apache::vhost(
       notify  => Service['httpd'],
   }
 
-  if ! defined(Firewall["0100-INPUT ACCEPT $port"]) {
-    @firewall {
-      "0100-INPUT ACCEPT $port":
-        action => 'accept',
-        dport => "$port",
-        proto => 'tcp'
+  # Do we have the firewall class?
+  if defined(firewall) {
+    @firewall { "0100-INPUT ACCEPT apache::vhost $port":
+      action => 'accept',
+      dport => $port,
+      proto => 'tcp',
     }
   }
 }

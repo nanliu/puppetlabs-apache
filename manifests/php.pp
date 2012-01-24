@@ -12,11 +12,11 @@
 #
 # Sample Usage:
 #
-class apache::php {
-	include php
-#  include apache::params
+class apache::php inherits apache::data {
+  include php
 
-#  package { $apache::params::php_package:
-#    ensure => present,
-#  }
+  package { $apache::params::php_package:
+    ensure => present,
+  }
+
 }
