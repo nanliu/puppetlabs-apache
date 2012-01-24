@@ -16,6 +16,7 @@ class apache (
   $package_name   = hiera('apache_package_name'),
   $package_ensure = hiera('apache_package_ensure'),
   $service_name   = hiera('apache_service_name'),
+  $apache_vdir    = hiera('apache_vdir'),
   $purge          = hiera('apache_purge')
 ) {
 
@@ -48,7 +49,7 @@ class apache (
     default: { }
   }
 
-  file { $apache::params::vdir:
+  file { $apache_vdir:
     ensure  => directory,
     recurse => true,
     purge   => $purge,
