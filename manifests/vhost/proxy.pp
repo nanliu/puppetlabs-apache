@@ -3,9 +3,9 @@
 # Configures an apache vhost that will only proxy requests
 #
 # Parameters:
-# * $port: 
+# * $port:
 #     The port on which the vhost will respond
-# * $dest: 
+# * $dest:
 #     URI that the requests will be proxied for
 # - $priority
 # - $template -- the template to use for the vhost
@@ -45,6 +45,5 @@ define apache::vhost::proxy (
     require => Package['httpd'],
     notify  => Service['httpd'],
   }
-
 
 }

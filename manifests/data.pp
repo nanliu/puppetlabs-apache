@@ -18,32 +18,40 @@
 #
 class apache::data {
 
-  $apache_user          = 'www-data'
-  $apache_group         = 'www-data'
-  $apache_ssl           = 'true'
-  $apache_template      = 'apache/vhost-default.conf.erb'
-  $apache_priority      = '25'
-  $apache_servername    = ''
-  $apache_serveraliases = ''
-  $apache_auth          = false
-  $apache_redirect_ssl  = false
-  $apache_options       = 'Indexes FollowSymLinks MultiViews'
-  $apache_vhost_name    = '*'
+  $apache_user           = 'www-data'
+  $apache_group          = 'www-data'
+  $apache_ssl            = 'true'
+  $apache_template       = 'apache/vhost-default.conf.erb'
+  $apache_priority       = '25'
+  $apache_servername     = ''
+  $apache_serveraliases  = ''
+  $apache_auth           = false
+  $apache_redirect_ssl   = false
+  $apache_options        = 'Indexes FollowSymLinks MultiViews'
+  $apache_vhost_name     = '*'
+  $apache_purge          = true
+  $apache_package_ensure = present
 
   case $::operatingsystem {
     'centos', 'redhat', 'fedora', 'scientific': {
-       $apache_servicename = 'httpd'
-       $php_package = 'php'
-       $ssl_package = 'mod_ssl'
-       $apache_dev_package  = 'httpd-devel'
-       $vdir        = '/etc/httpd/conf.d/'
+       $apache_package_name   = 'httpd'
+       $apache_service_name   = $apache_package_name
+       $apache_php_package    = 'php'
+       $apache_ssl_package    = 'mod_ssl'
+       $apache_python_package = 'mod_python'
+       $apache_wsgi_package   = 'mod_wsgi'
+       $apache_dev_package    = 'httpd-devel'
+       $apache_vdir           = '/etc/httpd/conf.d/'
     }
     'ubuntu', 'debian': {
-       $apache_name = 'apache2'
-       $php_package = 'libapache2-mod-php5'
-       $ssl_package = 'apache-ssl'
-       $apache_dev_package  = [ 'libaprutil1-dev', 'libapr1-dev', 'apache2-prefork-dev' ]
-       $vdir        = '/etc/apache2/sites-enabled/'
+       $apache_package_name   = 'apache2'
+       $apache_service_name   = $apache_package_name
+       $apache_php_package    = 'libapache2-mod-php5'
+       $apache_ssl_package    = 'apache-ssl'
+       $apache_python_package = 'libapache2-mod-python'
+       $apache_wsgi_pacakge   = 'libapache2-mod-wsgi'
+       $apache_dev_package    = [ 'libaprutil1-dev', 'libapr1-dev', 'apache2-prefork-dev' ]
+       $apache_vdir           = '/etc/apache2/sites-enabled/'
     }
   }
 

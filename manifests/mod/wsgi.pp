@@ -1,16 +1,19 @@
-class apache::mod::wsgi {
+class apache::mod::wsgi (
+  $package_name = hiera('apache_wsgi_package'),
+  $package_ensure = hiera('apache_package_ensure')
+) {
+
   include apache
 
-  package { "wsgi":
-    name => $operatingsystem ? {
-      'centos', 'fedora', 'redhat', 'scientific' => "mod_wsgi",
-      default => "libapache2-mod-wsgi",
-    },
-    ensure  => installed,
-    require => Package["httpd"];
+  package { 'wsgi':
+    name    => $package_name,
+    ensure  => $package_ensure,
+    require => Package['httpd'];
   }
 
-  a2mod { "wsgi": ensure => present; }
+  a2mod { 'wsgi':
+    ensure => present
+  }
 
 }
 
