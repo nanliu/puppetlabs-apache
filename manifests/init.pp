@@ -13,10 +13,10 @@
 # Sample Usage:
 #
 class apache (
-  $package_name   = hiera_array('apache_package'),
-  $package_ensure = hiera_array('apache_ensure'),
-  $service_name   = hiera_array('apache_service_name'),
-  $purge          = hiera_array('apache_purge')
+  $package_name   = hiera('apache_package'),
+  $package_ensure = hiera('apache_ensure'),
+  $service_name   = hiera('apache_service_name'),
+  $purge          = hiera('apache_purge')
 ) {
 
   package { 'httpd':
