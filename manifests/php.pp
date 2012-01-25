@@ -12,11 +12,16 @@
 #
 # Sample Usage:
 #
-class apache::php inherits apache::data {
+class apache::php (
+  $package_name   = hiera('apache_php_package'),
+  $package_ensure = hiera('apache_package_ensure')
+) {
+
+  include apache
   include php
 
-  package { $apache::params::php_package:
-    ensure => present,
+  package { $package_name:
+    ensure => $package_ensure,
   }
 
 }

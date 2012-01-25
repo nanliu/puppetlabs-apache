@@ -12,11 +12,14 @@
 # Sample Usage:
 #
 class apache::dev (
-  $package = hiera_array('apache_dev_package')
+  $package_name   = hiera('apache_dev_package'),
+  $package_ensure = hiera('apache_package_ensure')
 ) {
 
-  package { $package:
-    ensure => present,
+  include apache
+
+  package { $package_name:
+    ensure => $package_ensure,
   }
 
 }
