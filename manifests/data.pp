@@ -29,7 +29,7 @@ class apache::data {
   $apache_redirect_ssl   = false
   $apache_options        = 'Indexes FollowSymLinks MultiViews'
   $apache_vhost_name     = '*'
-  $apache_purge          = true
+  $apache_purge          = false
   $apache_package_ensure = present
 
   case $::operatingsystem {

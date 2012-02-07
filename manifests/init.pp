@@ -53,6 +53,7 @@ class apache (
     ensure  => directory,
     recurse => true,
     purge   => $purge,
+    require => Package['httpd'],
     notify  => Service['httpd'],
   }
 
