@@ -17,7 +17,7 @@ class apache (
   $package_ensure = hiera('apache_package_ensure'),
   $service_name   = hiera('apache_service_name'),
   $apache_vdir    = hiera('apache_vdir'),
-  $purge          = hiera('apache_purge')
+  $purge          = hiera('apache_purge', false)
 ) {
 
   package { 'httpd':
